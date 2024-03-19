@@ -10,6 +10,15 @@ import { getServerSession } from 'next-auth'
 
 export default async function Home() {
   const session = await getServerSession(options);
+  async function getData() {
+    return new Promise((resolve ,reject) => {
+      //หน่วง 3วิ
+      setTimeout(() => {
+        return resolve('Data Ready')
+      },3000)
+    })
+  }
+  const message = await getData();
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
       <div className="inline-block max-w-lg text-center justify-center">
