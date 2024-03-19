@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/page.tsx", "app/BookingForm/page.tsx", "middleware.js", "app/register/page.jsx", "app/pricing/page.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/page.tsx", "app/BookingForm/page.tsx", "middleware.js", "app/register/page.jsx", "app/register/page.jsx", "components/navbar.tsx"],
   "exclude": ["node_modules"]
 }

@@ -1,6 +1,6 @@
-export type SiteConfig = typeof siteConfig;
+export type SiteConfig = typeof siteConfig2;
 
-export const siteConfig = {
+export const siteConfig2 = {
 	name: "NextBooking",
 	description: "ระบบจองห้องพัก",
 	navItems: [
@@ -13,16 +13,16 @@ export const siteConfig = {
       href: "/BookingForm",
     },
     {
-      label: "สมัครสมาชิก",
-      href: "/register",
-    },
-    {
       label: "Blog",
       href: "/blog",
     },
     {
       label: "About",
       href: "/about",
+    },
+    {
+      label: "Logout",
+      href: "/api/auth/signout?callbackUrl=/",
     }
 	],
 	navMenuItems: [

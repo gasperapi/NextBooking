@@ -4,7 +4,7 @@ import { options } from '@/app/api/auth/[...nextauth]/option'
 import { getServerSession } from 'next-auth'
 import Link from 'next/link'
 
-export default async function NavBar() {
+export default async function Profile() {
   const session = await getServerSession(options)
   // ตรวจสอบว่าได้เข้าสู่ระบบแล้ว และมีข้อมูลผู้ใช้
   if(session && session.user) {
@@ -14,7 +14,7 @@ export default async function NavBar() {
             <div className='text-3xl'>{session.user?.name}</div>
             <div className='text-2xl text-gray-500'>{session.user?.email}</div>
             <Link 
-            href={'api/auth/signout?callbackUrl=/profile'}
+            href={'api/auth/signout?callbackUrl=/'}
             className='bg-blue-400 text-white rounded-sm shadow-sm py-1 px-2 my-4'
             >
                 Sign Out
@@ -27,7 +27,7 @@ export default async function NavBar() {
     <div className='flex flex-col justify-start items-center mx-auto h-screen my-5'>
         <div className='text-3xl'>Please Sign In!!!</div>
         <Link 
-        href={'api/auth/signin?callbackUrl=/profile'}
+        href={'api/auth/signin?callbackUrl=/'}
         className='ring-blue-400 ring-1 text-blue-500 rounded-sm shadow-sm py-1 px-2 my-4'
         >
             Sign In

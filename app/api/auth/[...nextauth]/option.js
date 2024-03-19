@@ -16,10 +16,10 @@ export const options = {
                 // ขอข้อมูลจากฐานข้อมูล
                 const user = {
                     userId:'101', 
-                    username: 'jeerawuth', 
-                    password: '12345678', 
-                    name: 'Jeerawuth Varin', 
-                    email: 'jeerawuth@email.com',
+                    username: 'gasper', 
+                    password: '123456', 
+                    name: 'Akaphon Mahaphon', 
+                    email: 'Akaphon@email.com',
                     image: 'asdfasdfasdf.jpg'
                 }
                 // ตรวจสอบ username และ password ว่าถูกต้องหรือไม่
