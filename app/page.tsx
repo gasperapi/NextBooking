@@ -21,19 +21,19 @@ export default function Home() {
 
       <div className="flex gap-3">
         <Link
-          isExternal
-          href={siteConfig.links.docs}
+          // isExternal
+          href={"/BookingForm"}
           className={`
 				${buttonStyles({
           color: "primary",
           radius: "full",
           variant: "shadow",
         })}
-			bg-gradient-to-tr
-			from-pink-500
-			to-yellow-500
-			text-white
-			shadow-lg
+          bg-gradient-to-tr
+          from-pink-500
+          to-yellow-500
+          text-white
+          shadow-lg
 			`}
         >
           จองเลย
