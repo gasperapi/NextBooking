@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from 'react';
+import { title } from "@/components/primitives";
 import { Input, Button, Text, Spacer, Textarea, Avatar } from '@nextui-org/react';
 const SignupForm = () => {
   const [user, setUser] = useState({
@@ -27,9 +28,8 @@ const SignupForm = () => {
 
   return (
     <div>
-      <Button color="primary">
-      Button
-    </Button>
+      <h1 className={title()}>กหก</h1>
+      
     </div>
   );
 };

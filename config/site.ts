@@ -13,7 +13,7 @@ export const siteConfig = {
       href: "/BookingForm",
     },
     {
-      label: "Pricing",
+      label: "สมัครสมาชิก",
       href: "/pricing",
     },
     {
