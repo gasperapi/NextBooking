@@ -1,5 +1,10 @@
 "use client";
 import { useSession, signIn, signOut } from "next-auth/react";
+import React, { useState } from "react";
+import { DatePicker } from "@mui/x-date-pickers";
+import "react-datepicker/dist/react-datepicker.css";
+import dayjs from "dayjs";
+import { Chip } from "@nextui-org/react";
 import Link from "next/link";
 import {
   Button,
@@ -9,8 +14,17 @@ import {
   Select,
   Spinner,
 } from "@nextui-org/react";
+import { Tabs, Tab, CardBody } from "@nextui-org/react";
 import Loading from "@/app/loading";
 import useSWR from "swr";
+
+const errorColors = {
+  checkInDate: "warning",
+  checkOutDate: "warning",
+  fullName: "danger", // Assuming full name is required
+  phone: "warning",
+  email: "warning",
+};
 
 async function fetcher(url) {
   const res = await fetch(url);
@@ -25,14 +39,47 @@ export default function BookingPage() {
     "https://65dc41c1e7edadead7eb6f69.mockapi.io/api/v1/Booking",
     fetcher
   );
+  //ใช้สำหรับ hook
+  const [checkInDate, setCheckInDate] = useState(null);
+  const [checkOutDate, setCheckOutDate] = useState(null);
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [errors, setErrors] = useState({});
+  const validate = () => {
+    let tempErrors = {};
+    tempErrors.fullName = fullName ? "" : "Full name is required.";
+    tempErrors.phone = phone.length > 9 ? "" : "Invalid phone number.";
+    tempErrors.email = email.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
+      ? ""
+      : "Email is not valid.";
+    tempErrors.checkInDate = checkInDate ? "" : "Check-in date is required.";
+    tempErrors.checkOutDate = checkOutDate ? "" : "Check-out date is required.";
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      // ที่นี่คุณสามารถเพิ่มการทำงานเพื่อส่งข้อมูลการจองไปยังเซิร์ฟเวอร์หรือ API
+      console.log({ checkInDate, checkOutDate, fullName, phone, email });
+    };
+
+    setErrors({ ...tempErrors });
+    return Object.values(tempErrors).every((x) => x === "");
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validate()) {
+      console.log({ checkInDate, checkOutDate, fullName, phone, email });
+      // Add your submit logic here
+    }
+  };
 
   if (error) {
     return <div>{error.message}</div>;
   }
   // ทำการ Log ข้อมูลที่ได้รับจาก API หลังจากมันถูกโหลดแล้ว
-  if (bookings) {
-    console.log("Bookings data:", bookings);
-  }
+  // if (bookings) {
+  //   console.log("Bookings data:", bookings);
+  // }
   if (!bookings) {
     return <Loading />;
   }
@@ -45,36 +92,103 @@ export default function BookingPage() {
   //เมื่อเข้าสู่ระบบเรียบร้อยแล้ว ข้อมูล data และ data user พร้อม
   if (status === "authenticated") {
     return (
-      <div className="flex flex-col justify-start items-center mx-auto h-screen my-5">
-        <div className="text-3xl">สวัสดีคุณ {session.user?.name}</div>
-        <div className="w-full max-w-2xl">
-          <h2>Your Bookings</h2>
-          {bookings.map((booking, index) => (
-            <Card key={index} className="mb-4">
-              <p>
-                <b>Booking ID:</b> {booking.id}
-              </p>
-              <p>
-                <b>Guest Name:</b> {booking.guestName}
-              </p>
-              <p>
-                <b>Check-in Date:</b> {booking.checkInDate}
-              </p>
-              <p>
-                <b>Check-out Date:</b> {booking.checkOutDate}
-              </p>
-              <p>
-                <b>Room Type:</b> {booking.roomType}
-              </p>
-              <p>
-                <b>Email:</b> {booking.guestEmail}
-              </p>
-              <p>
-                <b>Phone Number:</b> {booking.phoneNumber}
-              </p>
+      <div className="flex flex-col w-full">
+        <Tabs aria-label="Options">
+          <Tab key="booking" title="ลงเวลา">
+            <Card>
+              <CardBody>
+                <div className="p-5 max-w-lg mx-auto">
+                  <form onSubmit={handleSubmit}>
+                    <div className="mb-4">
+                      วันที่เข้า
+                      <DatePicker
+                        selected={checkInDate}
+                        onChange={(date) => setCheckInDate(date)}
+                        placeholderText="Select check-in date"
+                        className="input input-bordered w-full"
+                      />
+                      {errors.checkInDate && (
+                        <Chip color={errorColors.checkInDate}>
+                          {errors.checkInDate}
+                        </Chip>
+                      )}
+                    </div>
+                    <div className="mb-4">
+                      วันที่ออก
+                      <DatePicker
+                        selected={checkOutDate}
+                        onChange={(date) => setCheckOutDate(date)}
+                        placeholderText="Select check-out date"
+                        className="input input-bordered w-full"
+                      />
+                      {errors.checkOutDate && (
+                        <Chip color={errorColors.checkOutDate}>
+                          {errors.checkOutDate}
+                        </Chip>
+                      )}
+                    </div>
+                    <div className="mb-4">
+                      <Input
+                        fullWidth
+                        clearable
+                        bordered
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        placeholder="Full Name"
+                        className="input input-bordered w-full"
+                      />
+                      {errors.fullName && (
+                        <Chip color={errorColors.fullName}>
+                          {errors.fullName}
+                        </Chip>
+                      )}
+                    </div>
+                    <div className="mb-4">
+                      <Input
+                        fullWidth
+                        clearable
+                        bordered
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="Phone Number"
+                        className="input input-bordered w-full"
+                      />
+                      {errors.phone && (
+                        <Chip color={errorColors.phone}>{errors.phone}</Chip>
+                      )}
+                    </div>
+                    <div className="mb-4">
+                      <Input
+                        fullWidth
+                        clearable
+                        bordered
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Email"
+                        className="input input-bordered w-full"
+                      />
+                      {errors.email && (
+                        <Chip color={errorColors.email}>
+                        {errors.email}
+                      </Chip>
+                      )}
+                    </div>
+                    <Button
+                      type="submit"
+                      shadow
+                      color="primary"
+                      className="btn btn-primary w-full"
+                    >
+                      Submit Booking
+                    </Button>
+                  </form>
+                </div>
+              </CardBody>
             </Card>
-          ))}
-        </div>
+          </Tab>
+          {/* Add other tabs if necessary */}
+        </Tabs>
       </div>
     );
   }
