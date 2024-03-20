@@ -16,14 +16,14 @@ export const siteConfig = {
       label: "สมัครสมาชิก",
       href: "/register",
     },
-    {
-      label: "Blog",
-      href: "/blog",
-    },
-    {
-      label: "About",
-      href: "/about",
-    }
+    // {
+    //   label: "Blog",
+    //   href: "/blog",
+    // },
+    // {
+    //   label: "About",
+    //   href: "/about",
+    // }
 	],
 	navMenuItems: [
 		{

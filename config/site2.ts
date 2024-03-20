@@ -12,10 +12,7 @@ export const siteConfig2 = {
       label: "จองห้องพัก",
       href: "/BookingForm",
     },
-    {
-      label: "Blog",
-      href: "/blog",
-    },
+    
     {
       label: "Profile",
       href: "/profile",

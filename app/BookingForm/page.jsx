@@ -101,7 +101,7 @@ export default function BookingPage() {
   if (status === "authenticated") {
     return (
       <div className="flex flex-col w-full">
-        <Tabs aria-label="Options" fullWidth size="lg" >
+        <Tabs aria-label="Options" fullWidth size="lg">
           <Tab key="booking" title="ลงเวลา">
             <Card>
               <CardBody>
@@ -193,31 +193,35 @@ export default function BookingPage() {
               </CardBody>
             </Card>
           </Tab>
-          <Tab key="check-booking" title="รายการที่ลง">
+          
+          <Tab key="check-booking" title="รายการที่ลงทั้งหมด">
             <Table aria-label="Example static collection table">
-            <TableHeader>
-    <TableColumn className="text-center">Name</TableColumn>
-    <TableColumn className="text-center">Check-in Date</TableColumn>
-    <TableColumn className="text-center">Check-out Date</TableColumn>
-    <TableColumn className="text-center">Email</TableColumn>
-    <TableColumn className="text-center">Phone Number</TableColumn>
-    <TableColumn className="text-center">Status</TableColumn>
-  </TableHeader>
-  <TableBody>
-    {bookings.map((booking) => (
-      <TableRow key={booking.id}>
-        <TableCell>{booking.fullName}</TableCell>
-        <TableCell>{new Date(booking.checkInDate).toLocaleDateString()}</TableCell>
-        <TableCell>{new Date(booking.checkOutDate).toLocaleDateString()}</TableCell>
-        <TableCell>{booking.guestEmail}</TableCell>
-        <TableCell>{booking.phoneNumber}</TableCell>
-        <TableCell>{booking.status}</TableCell>
-      </TableRow>
-    ))}
-  </TableBody>
+              <TableHeader>
+                <TableColumn className="text-center">Name</TableColumn>
+                <TableColumn className="text-center">Check-in Date</TableColumn>
+                <TableColumn className="text-center">
+                  Check-out Date
+                </TableColumn>
+                <TableColumn className="text-center">Phone Number</TableColumn>
+              </TableHeader>
+              <TableBody>
+                {bookings.map((booking) => (
+                  <TableRow key={booking.id}>
+                    <TableCell>{booking.fullName}</TableCell>
+                    <TableCell>
+                      {new Date(booking.checkInDate).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>
+                      {new Date(booking.checkOutDate).toLocaleDateString()}
+                    </TableCell>
+
+                    <TableCell>{booking.phoneNumber}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
             </Table>
           </Tab>
-
+          
           {/* Add other tabs if necessary */}
         </Tabs>
       </div>
