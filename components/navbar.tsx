@@ -43,10 +43,10 @@ export default function Navbar() {
   //   if (status === "loading") {
   //     return <Spinner color="success" />;
   //   }
-//   useEffect(() => {
-//     console.log("Session:", session);
-//     console.log("Status:", status);
-//   }, [session, status]);
+  useEffect(() => {
+    console.log("Session:", session?.user);
+    console.log("Status:", status);
+  }, [session, status]);
   const searchInput = (
     <Input
       aria-label="Search"
@@ -82,6 +82,9 @@ export default function Navbar() {
               <p className="font-bold text-inherit">NextBookingLogin</p>
             </NextLink>
           </NavbarBrand>
+		  <NavbarItem>
+          <p className="text-sm font-normal text-default-600">{session?.user?.email}</p>
+        </NavbarItem>
           <ul className="hidden lg:flex gap-4 justify-start ml-2">
             {siteConfig2.navItems.map((item) => (
               <NavbarItem key={item.href}>
