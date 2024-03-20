@@ -14,6 +14,14 @@ import {
   Select,
   Spinner,
 } from "@nextui-org/react";
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@nextui-org/react";
 import { Tabs, Tab, CardBody } from "@nextui-org/react";
 import Loading from "@/app/loading";
 import useSWR from "swr";
@@ -77,9 +85,9 @@ export default function BookingPage() {
     return <div>{error.message}</div>;
   }
   // ทำการ Log ข้อมูลที่ได้รับจาก API หลังจากมันถูกโหลดแล้ว
-  // if (bookings) {
-  //   console.log("Bookings data:", bookings);
-  // }
+  if (bookings) {
+    console.log("Bookings data:", bookings);
+  }
   if (!bookings) {
     return <Loading />;
   }
@@ -93,7 +101,7 @@ export default function BookingPage() {
   if (status === "authenticated") {
     return (
       <div className="flex flex-col w-full">
-        <Tabs aria-label="Options">
+        <Tabs aria-label="Options" fullWidth size="lg" >
           <Tab key="booking" title="ลงเวลา">
             <Card>
               <CardBody>
@@ -169,9 +177,7 @@ export default function BookingPage() {
                         className="input input-bordered w-full"
                       />
                       {errors.email && (
-                        <Chip color={errorColors.email}>
-                        {errors.email}
-                      </Chip>
+                        <Chip color={errorColors.email}>{errors.email}</Chip>
                       )}
                     </div>
                     <Button
@@ -187,6 +193,31 @@ export default function BookingPage() {
               </CardBody>
             </Card>
           </Tab>
+          <Tab key="check-booking" title="รายการที่ลง">
+            <Table aria-label="Example static collection table">
+            <TableHeader>
+    <TableColumn className="text-center">Name</TableColumn>
+    <TableColumn className="text-center">Check-in Date</TableColumn>
+    <TableColumn className="text-center">Check-out Date</TableColumn>
+    <TableColumn className="text-center">Email</TableColumn>
+    <TableColumn className="text-center">Phone Number</TableColumn>
+    <TableColumn className="text-center">Status</TableColumn>
+  </TableHeader>
+  <TableBody>
+    {bookings.map((booking) => (
+      <TableRow key={booking.id}>
+        <TableCell>{booking.fullName}</TableCell>
+        <TableCell>{new Date(booking.checkInDate).toLocaleDateString()}</TableCell>
+        <TableCell>{new Date(booking.checkOutDate).toLocaleDateString()}</TableCell>
+        <TableCell>{booking.guestEmail}</TableCell>
+        <TableCell>{booking.phoneNumber}</TableCell>
+        <TableCell>{booking.status}</TableCell>
+      </TableRow>
+    ))}
+  </TableBody>
+            </Table>
+          </Tab>
+
           {/* Add other tabs if necessary */}
         </Tabs>
       </div>
