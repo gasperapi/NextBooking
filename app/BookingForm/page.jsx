@@ -50,7 +50,40 @@ async function fetcher(url) {
   }
   return res.json();
 }
+
+// ฟังก์ชันที่จะถูกเรียกเมื่อไอคอนถูกคลิก
+const handleApprove = async () => {
+  try {
+    // ตัวอย่างการเรียกใช้ API เพื่ออนุมัติ
+    const response = await fetch('path_to_your_approve_api', {
+      method: 'POST',
+      // โดยที่คุณอาจจะต้องส่งข้อมูลเพิ่มเติมไปกับ body
+    });
+    const data = await response.json();
+    console.log(data);
+    // อัพเดท UI หรือแสดงการยืนยันการอนุมัติ
+  } catch (error) {
+    console.error('Error during API call:', error);
+  }
+};
+
+const handleDelete = async () => {
+  try {
+    // ตัวอย่างการเรียกใช้ API เพื่อลบผู้ใช้
+    const response = await fetch('path_to_your_delete_api', {
+      method: 'DELETE',
+      // โดยที่คุณอาจจะต้องส่งข้อมูลเพิ่มเติมไปกับ body
+    });
+    const data = await response.json();
+    console.log(data);
+    // อัพเดท UI หรือแสดงการยืนยันการลบ
+  } catch (error) {
+    console.error('Error during API call:', error);
+  }
+};
 export default function BookingPage() {
+  
+
   const renderCell = React.useCallback((user, columnKey) => {
     const cellValue = user[columnKey];
 
@@ -88,11 +121,13 @@ export default function BookingPage() {
       case "actions":
         return (
           <div className="relative flex items-center gap-2">
-            <Tooltip content="Approve">
-              <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                <ApproveIcon />
-              </span>
-            </Tooltip>
+            <div onClick={handleApprove}>
+              <Tooltip content="Approve">
+                <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                  <ApproveIcon />
+                </span>
+              </Tooltip>
+            </div>
             <Tooltip color="danger" content="Delete user">
               <span className="text-lg text-danger cursor-pointer active:opacity-50">
                 <DeleteIcon />
@@ -287,7 +322,7 @@ export default function BookingPage() {
             <Table aria-label="Example table with custom cells">
               <TableHeader columns={columns}>
                 {(column) => (
-                  <TableColumn                    
+                  <TableColumn
                     key={column.uid}
                     align={column.uid === "actions" ? "center" : "start"}
                     className="text-center"
