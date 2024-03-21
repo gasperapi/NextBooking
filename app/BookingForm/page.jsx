@@ -60,6 +60,7 @@ export default function BookingPage() {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [roomType, setRoomType] = useState("");
   const [errors, setErrors] = useState({});
   const validate = () => {
     let tempErrors = {};
@@ -70,6 +71,7 @@ export default function BookingPage() {
       : "Email is not valid.";
     tempErrors.checkInDate = checkInDate ? "" : "Check-in date is required.";
     tempErrors.checkOutDate = checkOutDate ? "" : "Check-out date is required.";
+    tempErrors.roomType = roomType ? "" : "Please select a room type.";
     const handleSubmit = (e) => {
       e.preventDefault();
       // ที่นี่คุณสามารถเพิ่มการทำงานเพื่อส่งข้อมูลการจองไปยังเซิร์ฟเวอร์หรือ API
@@ -123,10 +125,8 @@ export default function BookingPage() {
                         placeholderText="Select check-in date"
                         className="input input-bordered w-full"
                       />
-                      {errors.checkInDate && (
-                        <Chip color={errorColors.checkInDate}>
-                          {errors.checkInDate}
-                        </Chip>
+                      {errors.checkOutDate && (
+                        <p className="text-error mt-2">{errors.checkInDate}</p>
                       )}
                     </div>
                     <div className="mb-4">
@@ -138,9 +138,7 @@ export default function BookingPage() {
                         className="input input-bordered w-full"
                       />
                       {errors.checkOutDate && (
-                        <Chip color={errorColors.checkOutDate}>
-                          {errors.checkOutDate}
-                        </Chip>
+                        <p className="text-error mt-2">{errors.checkOutDate}</p>
                       )}
                     </div>
                     <div className="mb-4">
@@ -191,10 +189,16 @@ export default function BookingPage() {
                       />
                     </div>
                     <div className="mb-4">
-                      <Select label="เลือกประเภทห้อง" >
+                      <Select
+                        label="เลือกประเภทห้อง"
+                        onChange={(e) => setRoomType(e.target.value)}
+                        errorMessage={
+                          errors.roomType ? "Please enter a valid Email" : null
+                        }
+                      >
                         {roomTypes.map((room) => (
                           <SelectItem key={room.value} value={room.value}>
-                            {`${room.label} ${room.remaining}`}
+                            {`${room.label} เหลือ ${room.remaining} ห้อง`}
                           </SelectItem>
                         ))}
                       </Select>
@@ -212,7 +216,7 @@ export default function BookingPage() {
               </CardBody>
             </Card>
           </Tab>
-
+          <Tab key="pending" title="Admin อนุมัติ"></Tab>
           <Tab key="check-booking" title="รายการที่ลงทั้งหมด">
             <Table aria-label="Example static collection table">
               <TableHeader>
