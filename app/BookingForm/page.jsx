@@ -144,12 +144,9 @@ export default function BookingPage() {
                         onChange={(e) => setFullName(e.target.value)}
                         placeholder="Full Name"
                         className="input input-bordered w-full"
+                        errorMessage={errors.fullName ? "Please enter a valid full name" : null}
                       />
-                      {errors.fullName && (
-                        <Chip color={errorColors.fullName}>
-                          {errors.fullName}
-                        </Chip>
-                      )}
+                      
                     </div>
                     <div className="mb-4">
                       <Input
@@ -160,10 +157,9 @@ export default function BookingPage() {
                         onChange={(e) => setPhone(e.target.value)}
                         placeholder="Phone Number"
                         className="input input-bordered w-full"
+                        errorMessage={errors.phone ? "Please enter a valid Phone Number" : null}
                       />
-                      {errors.phone && (
-                        <Chip color={errorColors.phone}>{errors.phone}</Chip>
-                      )}
+                      
                     </div>
                     <div className="mb-4">
                       <Input
@@ -175,10 +171,9 @@ export default function BookingPage() {
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email"
                         className="input input-bordered w-full"
+                        errorMessage={errors.email ? "Please enter a valid Email" : null}
                       />
-                      {errors.email && (
-                        <Chip color={errorColors.email}>{errors.email}</Chip>
-                      )}
+                      
                     </div>
                     <Button
                       type="submit"
