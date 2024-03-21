@@ -36,9 +36,9 @@ const errorColors = {
 
 // สมมติว่าคุณมีข้อมูลห้องพักและจำนวนคงเหลือดังนี้
 const roomTypes = [
-  { label: "ห้อง A ติดทะเล", value: "A", remaining: 10 },
-  { label: "ห้อง B ติดแม่น้ำ", value: "B", remaining: 5 },
-  { label: "ห้อง C ใกล้ภูเขา", value: "C", remaining: 2 },
+  { label: "ห้อง A ติดทะเล", value: "A", remaining: 2 },
+  { label: "ห้อง B ติดแม่น้ำ", value: "B", remaining: 10 },
+  { label: "ห้อง C ใกล้ภูเขา", value: "C", remaining: 0},
 ];
 
 async function fetcher(url) {
@@ -71,12 +71,22 @@ export default function BookingPage() {
       : "Email is not valid.";
     tempErrors.checkInDate = checkInDate ? "" : "Check-in date is required.";
     tempErrors.checkOutDate = checkOutDate ? "" : "Check-out date is required.";
-    tempErrors.roomType = roomType ? "" : "Please select a room type.";
+    // tempErrors.roomType = roomType ? "" : "Please select a room type.";
+    if (!roomType) {
+      tempErrors.roomType = "Please select a room type.";
+    }else {
+      const selectedRoom = roomTypes.find((room) => room.value === roomType);
+      // ตรวจสอบหากห้องคงเหลือเป็น 0
+      if (selectedRoom && selectedRoom.remaining === 0) {
+        tempErrors.roomType = "Selected room type is fully booked. Please choose another.";
+      }
+    }
     const handleSubmit = (e) => {
       e.preventDefault();
       // ที่นี่คุณสามารถเพิ่มการทำงานเพื่อส่งข้อมูลการจองไปยังเซิร์ฟเวอร์หรือ API
       console.log({ checkInDate, checkOutDate, fullName, phone, email });
     };
+    
 
     setErrors({ ...tempErrors });
     return Object.values(tempErrors).every((x) => x === "");
@@ -192,8 +202,11 @@ export default function BookingPage() {
                       <Select
                         label="เลือกประเภทห้อง"
                         onChange={(e) => setRoomType(e.target.value)}
+                        disabledKeys={roomTypes
+                          .filter((room) => room.remaining === 0)
+                          .map((room) => room.value)}
                         errorMessage={
-                          errors.roomType ? "Please enter a valid Email" : null
+                          errors.roomType ? "Please Select" : null
                         }
                       >
                         {roomTypes.map((room) => (
