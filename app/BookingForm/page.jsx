@@ -3,7 +3,6 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import React, { useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import "react-datepicker/dist/react-datepicker.css";
-import dayjs from "dayjs";
 import { Chip } from "@nextui-org/react";
 import Link from "next/link";
 import {
@@ -12,6 +11,7 @@ import {
   Input,
   Textarea,
   Select,
+  SelectItem,
   Spinner,
 } from "@nextui-org/react";
 import {
@@ -33,6 +33,13 @@ const errorColors = {
   phone: "warning",
   email: "warning",
 };
+
+// สมมติว่าคุณมีข้อมูลห้องพักและจำนวนคงเหลือดังนี้
+const roomTypes = [
+  { label: "ห้อง A ติดทะเล", value: "A", remaining: 10 },
+  { label: "ห้อง B ติดแม่น้ำ", value: "B", remaining: 5 },
+  { label: "ห้อง C ใกล้ภูเขา", value: "C", remaining: 2 },
+];
 
 async function fetcher(url) {
   const res = await fetch(url);
@@ -72,6 +79,7 @@ export default function BookingPage() {
     setErrors({ ...tempErrors });
     return Object.values(tempErrors).every((x) => x === "");
   };
+  const remainingRooms = 10; // จำนวนห้องที่เหลือ (ตัวอย่าง)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -144,9 +152,12 @@ export default function BookingPage() {
                         onChange={(e) => setFullName(e.target.value)}
                         placeholder="Full Name"
                         className="input input-bordered w-full"
-                        errorMessage={errors.fullName ? "Please enter a valid full name" : null}
+                        errorMessage={
+                          errors.fullName
+                            ? "Please enter a valid full name"
+                            : null
+                        }
                       />
-                      
                     </div>
                     <div className="mb-4">
                       <Input
@@ -157,9 +168,12 @@ export default function BookingPage() {
                         onChange={(e) => setPhone(e.target.value)}
                         placeholder="Phone Number"
                         className="input input-bordered w-full"
-                        errorMessage={errors.phone ? "Please enter a valid Phone Number" : null}
+                        errorMessage={
+                          errors.phone
+                            ? "Please enter a valid Phone Number"
+                            : null
+                        }
                       />
-                      
                     </div>
                     <div className="mb-4">
                       <Input
@@ -171,9 +185,19 @@ export default function BookingPage() {
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email"
                         className="input input-bordered w-full"
-                        errorMessage={errors.email ? "Please enter a valid Email" : null}
+                        errorMessage={
+                          errors.email ? "Please enter a valid Email" : null
+                        }
                       />
-                      
+                    </div>
+                    <div className="mb-4">
+                      <Select label="เลือกประเภทห้อง" >
+                        {roomTypes.map((room) => (
+                          <SelectItem key={room.value} value={room.value}>
+                            {`${room.label} ${room.remaining}`}
+                          </SelectItem>
+                        ))}
+                      </Select>
                     </div>
                     <Button
                       type="submit"
@@ -188,7 +212,7 @@ export default function BookingPage() {
               </CardBody>
             </Card>
           </Tab>
-          
+
           <Tab key="check-booking" title="รายการที่ลงทั้งหมด">
             <Table aria-label="Example static collection table">
               <TableHeader>
@@ -216,7 +240,7 @@ export default function BookingPage() {
               </TableBody>
             </Table>
           </Tab>
-          
+
           {/* Add other tabs if necessary */}
         </Tabs>
       </div>
