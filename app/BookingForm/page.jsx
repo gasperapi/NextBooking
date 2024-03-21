@@ -1,6 +1,6 @@
 "use client";
 import { useSession, signIn, signOut } from "next-auth/react";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import "react-datepicker/dist/react-datepicker.css";
 import { Chip } from "@nextui-org/react";
@@ -30,7 +30,7 @@ import useSWR from "swr";
 const roomTypes = [
   { label: "ห้อง A ติดทะเล", value: "A", remaining: 2 },
   { label: "ห้อง B ติดแม่น้ำ", value: "B", remaining: 10 },
-  { label: "ห้อง C ใกล้ภูเขา", value: "C", remaining: 0},
+  { label: "ห้อง C ใกล้ภูเขา", value: "C", remaining: 0 },
 ];
 
 async function fetcher(url) {
@@ -53,9 +53,7 @@ export default function BookingPage() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [roomType, setRoomType] = useState("");
-  useEffect(() => {
-    console.log('Selected Room Type:', roomType);
-  }, [roomType]);
+
   const [errors, setErrors] = useState({});
   const validate = () => {
     let tempErrors = {};
@@ -69,15 +67,14 @@ export default function BookingPage() {
     // tempErrors.roomType = roomType ? "" : "Please select a room type.";
     if (!roomType) {
       tempErrors.roomType = "Please select a room type.";
-    }else {
+    } else {
       const selectedRoom = roomTypes.find((room) => room.value === roomType);
       // ตรวจสอบหากห้องคงเหลือเป็น 0
       if (selectedRoom && selectedRoom.remaining === 0) {
-        tempErrors.roomType = "Selected room type is fully booked. Please choose another.";
+        tempErrors.roomType =
+          "Selected room type is fully booked. Please choose another.";
       }
     }
-    
-    
 
     setErrors({ ...tempErrors });
     return Object.values(tempErrors).every((x) => x === "");
@@ -85,7 +82,14 @@ export default function BookingPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      console.log({ checkInDate, checkOutDate, fullName, phone, email, roomType });
+      console.log({
+        checkInDate,
+        checkOutDate,
+        fullName,
+        phone,
+        email,
+        roomType,
+      });
       // Add your submit logic here
     }
   };
@@ -194,9 +198,7 @@ export default function BookingPage() {
                         disabledKeys={roomTypes
                           .filter((room) => room.remaining === 0)
                           .map((room) => room.value)}
-                        errorMessage={
-                          errors.roomType ? "Please Select" : null
-                        }
+                        errorMessage={errors.roomType ? "Please Select" : null}
                       >
                         {roomTypes.map((room) => (
                           <SelectItem key={room.value} value={room.value}>
@@ -218,7 +220,18 @@ export default function BookingPage() {
               </CardBody>
             </Card>
           </Tab>
-          <Tab key="pending" title="Admin อนุมัติ"></Tab>
+          <Tab key="pending" title="Admin อนุมัติ">
+            <Table aria-label="Example empty table">
+              <TableHeader>
+                <TableColumn className="text-center">Name</TableColumn>
+                <TableColumn className="text-center">Check-in Date</TableColumn>
+                <TableColumn className="text-center">
+                  Check-out Date
+                </TableColumn>
+              </TableHeader>
+              <TableBody emptyContent={"No rows to display."}>{[]}</TableBody>
+            </Table>
+          </Tab>
           <Tab key="check-booking" title="รายการที่ลงทั้งหมด">
             <Table aria-label="Example static collection table">
               <TableHeader>
@@ -229,7 +242,7 @@ export default function BookingPage() {
                 </TableColumn>
                 <TableColumn className="text-center">Phone Number</TableColumn>
               </TableHeader>
-              <TableBody>
+              <TableBody emptyContent={"No rows to display."}>
                 {bookings.map((booking) => (
                   <TableRow key={booking.id}>
                     <TableCell>{booking.fullName}</TableCell>
