@@ -1,6 +1,6 @@
 "use client";
 import { useSession, signIn, signOut } from "next-auth/react";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import "react-datepicker/dist/react-datepicker.css";
 import { Chip } from "@nextui-org/react";
@@ -25,14 +25,6 @@ import {
 import { Tabs, Tab, CardBody } from "@nextui-org/react";
 import Loading from "@/app/loading";
 import useSWR from "swr";
-
-const errorColors = {
-  checkInDate: "warning",
-  checkOutDate: "warning",
-  fullName: "danger", // Assuming full name is required
-  phone: "warning",
-  email: "warning",
-};
 
 // สมมติว่าคุณมีข้อมูลห้องพักและจำนวนคงเหลือดังนี้
 const roomTypes = [
@@ -61,6 +53,9 @@ export default function BookingPage() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [roomType, setRoomType] = useState("");
+  useEffect(() => {
+    console.log('Selected Room Type:', roomType);
+  }, [roomType]);
   const [errors, setErrors] = useState({});
   const validate = () => {
     let tempErrors = {};
@@ -81,22 +76,16 @@ export default function BookingPage() {
         tempErrors.roomType = "Selected room type is fully booked. Please choose another.";
       }
     }
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      // ที่นี่คุณสามารถเพิ่มการทำงานเพื่อส่งข้อมูลการจองไปยังเซิร์ฟเวอร์หรือ API
-      console.log({ checkInDate, checkOutDate, fullName, phone, email });
-    };
+    
     
 
     setErrors({ ...tempErrors });
     return Object.values(tempErrors).every((x) => x === "");
   };
-  const remainingRooms = 10; // จำนวนห้องที่เหลือ (ตัวอย่าง)
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      console.log({ checkInDate, checkOutDate, fullName, phone, email });
+      console.log({ checkInDate, checkOutDate, fullName, phone, email, roomType });
       // Add your submit logic here
     }
   };
