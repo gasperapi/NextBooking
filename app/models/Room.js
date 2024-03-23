@@ -7,6 +7,6 @@ const roomSchema = new mongoose.Schema({
   remaining: { type: Number, required: true },
 });
 
-const Room = mongoose.models.Room || mongoose.model('Room', roomSchema);
+const Rooms = mongoose.models.Rooms || mongoose.model('Rooms', roomSchema);
 
-export default Room;
+export default Rooms;
