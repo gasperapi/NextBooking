@@ -39,6 +39,7 @@
     "eslint-config-next": "14.0.2",
     "framer-motion": "^10.16.4",
     "intl-messageformat": "^10.5.0",
+    "mongoose": "^8.2.3",
     "next": "14.0.2",
     "next-auth": "^4.24.7",
     "next-themes": "^0.2.1",

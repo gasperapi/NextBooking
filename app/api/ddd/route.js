@@ -1,10 +1,21 @@
-import { connectToDataBase } from "@/lib/database";
+import mongodbConnect from '../../../lib/mongodb';
+import mongoose from 'mongoose';
+const Room = require('../../models/Room'); // หรือตำแหน่งที่ถูกต้องของไฟล์
+// export  async function GET() {
+  
+//   return Response.json({
+//     name:"GAS"
+//   })
+// }
+export async function GET(req, res) {
+  await mongodbConnect(); // เรียกใช้เพื่อเชื่อมต่อกับ MongoDB
 
-export const GET = async (request) => { 
+  // ตรงนี้คุณสามารถเขียนโค้ดเพื่อดำเนินการกับฐานข้อมูล
+
   try {
-    await connectToDataBase();    
-    //return logic here    
+    const rooms = await Room.find({}); // ดึงข้อมูลห้องพักทั้งหมด
+    res.status(200).json({ rooms });
   } catch (error) {
-    //return logic here
+    res.status(500).json({ error: error.message });
   }
-};
+}
