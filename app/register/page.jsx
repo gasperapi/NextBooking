@@ -2,6 +2,7 @@
 import { title } from "@/components/primitives";
 import React, { useState } from "react";
 import { Input, Button, Spacer, Skeleton } from "@nextui-org/react";
+import { submitForm } from "@/app/register/action";
 export default function RegisterPage() {
   const [user, setUser] = useState({
     username: "",
@@ -57,6 +58,7 @@ export default function RegisterPage() {
     if (validateForm()) {
       setIsLoading(true); // ก่อนส่งฟอร์ม แสดง Skeleton
       console.log(user);
+      submitForm(user);
       // Submit the form
       setTimeout(() => {
         setIsLoading(false); // หลังจากส่งข้อมูลเสร็จ ซ่อน Skeleton
@@ -66,7 +68,9 @@ export default function RegisterPage() {
   };
   return (
     <div>
+      
       <h1 className={title()}>สมัครสมาชิก</h1>
+      
       <div style={{ padding: "2rem" }}>
         {isLoading ? (
           <>
@@ -81,6 +85,7 @@ export default function RegisterPage() {
             </div>
           </>
         ) : (
+          
           <form onSubmit={handleSubmit}>
             <Input
               clearable
