@@ -27,7 +27,7 @@ export default async function Home() {
         <br />
         <h1 className={title()}>ได้อย่างง่ายดายและสะดวกรวดเร็ว</h1>
         <h2 className={subtitle({ class: "mt-4" })}>
-          ระบบจองห้องพักที่ใช้งานง่ายและมีประสิทธิภาพ
+          ระบบจองEARTHห้องพักที่ใช้งานง่ายและมีประสิทธิภาพ
         </h2>
       </div>
 
