@@ -27,7 +27,7 @@ export default async function Home() {
         <br />
         <h1 className={title()}>ได้อย่างง่ายดายและสะดวกรวดเร็ว</h1>
         <h2 className={subtitle({ class: "mt-4" })}>
-          GAS
+          ลองแก้
         </h2>
       </div>
 
