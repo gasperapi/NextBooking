@@ -28,6 +28,7 @@ export default async function Home() {
         <h1 className={title()}>ได้อย่างง่ายดายและสะดวกรวดเร็ว</h1>
         <h2 className={subtitle({ class: "mt-4" })}>
           ลองแก้
+         ห้องของ earth 123456
         </h2>
       </div>
 
